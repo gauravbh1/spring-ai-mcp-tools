@@ -1,0 +1,45 @@
+# Maven
+target/
+*.jar
+*.war
+*.ear
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+.flattened-pom.xml
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+*.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Environment
+.env
+.env.local
+*.properties.local
+
+# Java
+*.class
+*.ctxt
+.mtj.tmp/
+*.jar
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Gradle
+.gradle/
+build/
