@@ -327,6 +327,120 @@ Recommended test cases:
 - `countOccurrences("banana", "an")` -> result should be 2
 - `toUpperCase("hello world")` -> `HELLO WORLD`
 
+## Testing with Claude and GitHub Copilot
+
+Once your MCP server is running, you can connect it directly to Claude or GitHub Copilot for real-world AI integration testing.
+
+### Using with Claude Desktop
+
+Claude Desktop (Mac/Windows) supports MCP servers natively.
+
+1. **Configure Claude Desktop**
+
+   Create or edit `~/.claude/claude_desktop_config.json`:
+
+   ```json
+   {
+     "mcpServers": {
+       "spring-ai-mcp": {
+         "command": "npx",
+         "args": ["@modelcontextprotocol/server-fetch"],
+         "env": {},
+         "url": "http://localhost:8080/mcp"
+       }
+     }
+   }
+   ```
+
+   Or if using environment variables:
+
+   ```json
+   {
+     "mcpServers": {
+       "spring-ai-tools": {
+         "url": "http://localhost:8080/mcp",
+         "type": "http"
+       }
+     }
+   }
+   ```
+
+2. **Restart Claude Desktop**
+
+   After updating the config, restart Claude Desktop. Your MCP server tools will now be available to Claude.
+
+3. **Test with Claude**
+
+   Ask Claude questions that use your tools:
+
+   - "What is 25 plus 17?"
+   - "What is the current date and time?"
+   - "How many times does 'o' appear in the word 'hello'?"
+
+   Claude will automatically call your MCP tools to answer.
+
+### Using with GitHub Copilot
+
+GitHub Copilot also supports MCP servers for extended functionality.
+
+1. **Configure Copilot Settings**
+
+   In your VS Code `settings.json`:
+
+   ```json
+   {
+     "github.copilot.mcp.servers": [
+       {
+         "name": "spring-ai-tools",
+         "url": "http://localhost:8080/mcp"
+       }
+     ]
+   }
+   ```
+
+2. **Use in Copilot Chat**
+
+   Open the Copilot Chat panel in VS Code and ask:
+
+   - `@mcp What tools are available?` - Lists all your MCP tools
+   - `@mcp Add 50 and 30` - Uses your calculator tool
+   - `@mcp Get the current time` - Uses your datetime tool
+
+3. **Use in Code Completions**
+
+   Copilot can suggest code that invokes your MCP tools when you write:
+
+   ```java
+   // Ask Copilot: "invoke the string reversal tool"
+   // Copilot will suggest calling your toUpperCase or reverseString tool
+   ```
+
+### Example: Claude Using Your Tools
+
+**User prompt to Claude:**
+```
+I need to process these dates:
+1. What is today's date and time?
+2. Convert "spring boot" to uppercase
+3. Count how many times "o" appears in "spring boot framework"
+```
+
+**Claude's response:**
+Claude will use your MCP tools:
+1. Calls `getCurrentDateTime()` → Returns current date/time/components
+2. Calls `toUpperCase("spring boot")` → Returns "SPRING BOOT"
+3. Calls `countOccurrences("spring boot framework", "o")` → Returns count: 3
+
+All tool calls happen transparently—Claude handles orchestration.
+
+### Benefits of MCP Integration with AI Systems
+
+- **Hands-off tool discovery** - Claude and Copilot auto-discover all your tools
+- **Natural language interface** - No need for users to learn custom APIs
+- **Automatic error handling** - Built-in retry logic and error recovery
+- **Context-aware tool selection** - AI picks the right tool for the task
+- **Audit trail** - All tool invocations logged and traceable
+
 ## Common Pitfalls
 
 - Using incorrect annotation packages (for example `@Tool` instead of `@McpTool` in this setup)
